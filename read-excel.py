@@ -15,7 +15,7 @@ def r_exl(sheet_name, date1=''):
     return a.count(date1)
 
 
-def rw_exl(sheet_name, zawt='', pzr='', date1='', zabm=''):
+def rw_exl(sheet_name, zawt='', pzr='', date1='', zabm='', pztime=''):
     inwb = load_workbook('22.xlsx')  # (r'C:\Users\Administrator\Desktop\抢修台账\20.xlsx')
     # print(inwb.sheetnames)
     sheet = inwb[sheet_name]  # 打开工作表
@@ -40,7 +40,7 @@ def rw_exl(sheet_name, zawt='', pzr='', date1='', zabm=''):
     # print(datetime.datetime.now().strftime("%Y-%m-%d"))
 
     # sheet.append(['', date1, '','',zawt,pzr])
-    sheet.append({'a': zabm, 'b': date1, 'e': zawt, 'f': pzr})
+    sheet.append({'a': zabm, 'b': date1, 'e': zawt, 'f': pzr, 'g': pztime})
 
     inwb.save("22.xlsx")
 
@@ -95,10 +95,13 @@ while True:
 
     zawt = input('请输入障碍问题：')
     pzr = input('请输入派障人：')
+    pztime = input('请输入派障时间：')
+    if pztime == '':
+        pztime = datetime.datetime.now().strftime("%H:%M")
 
     auweixin = input('是否自动发微信通知工程队(默认不发送，Y/y发送)：')
 
-    rw_exl(sheet_name, zawt=zawt, pzr=pzr, date1=date1, zabm=zabm)  # 调用读写EXCEL函数rw_exl()进行数据保存
+    rw_exl(sheet_name, zawt=zawt, pzr=pzr, date1=date1, zabm=zabm, pztime=pztime)  # 调用读写EXCEL函数rw_exl()进行数据保存
 
     if auweixin == 'y' or auweixin == 'Y':
         auto_weixin()
